@@ -1,43 +1,43 @@
 graph TD
     subgraph フロントエンド
-        A[クライアント] -->|閲覧のみ| B[クライアント専用UI (S3 & CloudFront)]
-        D[管理者] -->|操作| E[管理者Webアプリ (S3 & CloudFront)]
-        D -->|モバイル操作| F[管理者モバイルアプリ (React Native & SNS Mobile Push)]
-        O[CDN (CloudFront)] --> B
+        A[クライアント] -->|閲覧のみ| B[クライアント専用UI]
+        D[管理者] -->|操作| E[管理者Webアプリ]
+        D -->|モバイル操作| F[管理者モバイルアプリ]
+        O[CDN] --> B
         O --> E
     end
 
     subgraph バックエンド
-        B -->|データ取得| C[API ゲートウェイ]
+        B -->|データ取得| C[APIゲートウェイ]
         E -->|データ操作| C
         F -->|データ操作| C
         
-        C --> G[認証・認可サービス (Cognito)]
+        C --> G[認証・認可サービス]
         
         subgraph サービス
-            C --> H[テナント管理サービス (Lambda)]
-            C --> I[予約サービス (Lambda)]
-            C --> J[カレンダーサービス (Lambda)]
+            C --> H[テナント管理サービス]
+            C --> I[予約サービス]
+            C --> J[カレンダーサービス]
         end
         
         subgraph データベース
-            H --> K[(テナント DB (RDS MySQL))]
-            I --> L[(予約 DB (RDS MySQL))]
-            J --> M[(カレンダー DB (RDS MySQL))]
+            H --> K[テナントDB]
+            I --> L[予約DB]
+            J --> M[カレンダーDB]
         end
         
         subgraph フォーム生成
-            N[フォーム生成サービス (Lambda)] --> B
+            N[フォーム生成サービス] --> B
             H --> N
         end
         
         subgraph キャッシュと非同期処理
-            P[キャッシュ層 (ElastiCache Redis)] --> I
+            P[キャッシュ層] --> I
             P --> J
-            Q[非同期ワーカー (SQS & Lambda)] --> I
+            Q[非同期ワーカー] --> I
             Q --> J
-            R[通知サービス (SNS)] --> Q
+            R[通知サービス] --> Q
         end
         
-        S[プッシュ通知サービス (SNS Mobile Push)] --> F
+        S[プッシュ通知サービス] --> F
     end
