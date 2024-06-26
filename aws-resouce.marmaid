@@ -1,0 +1,43 @@
+graph TD
+    subgraph フロントエンド
+        A[クライアント] -->|閲覧のみ| B[クライアント専用UI (S3 & CloudFront)]
+        D[管理者] -->|操作| E[管理者Webアプリ (S3 & CloudFront)]
+        D -->|モバイル操作| F[管理者モバイルアプリ (React Native & SNS Mobile Push)]
+        O[CDN (CloudFront)] --> B
+        O --> E
+    end
+
+    subgraph バックエンド
+        B -->|データ取得| C[API ゲートウェイ]
+        E -->|データ操作| C
+        F -->|データ操作| C
+        
+        C --> G[認証・認可サービス (Cognito)]
+        
+        subgraph サービス
+            C --> H[テナント管理サービス (Lambda)]
+            C --> I[予約サービス (Lambda)]
+            C --> J[カレンダーサービス (Lambda)]
+        end
+        
+        subgraph データベース
+            H --> K[(テナント DB (RDS MySQL))]
+            I --> L[(予約 DB (RDS MySQL))]
+            J --> M[(カレンダー DB (RDS MySQL))]
+        end
+        
+        subgraph フォーム生成
+            N[フォーム生成サービス (Lambda)] --> B
+            H --> N
+        end
+        
+        subgraph キャッシュと非同期処理
+            P[キャッシュ層 (ElastiCache Redis)] --> I
+            P --> J
+            Q[非同期ワーカー (SQS & Lambda)] --> I
+            Q --> J
+            R[通知サービス (SNS)] --> Q
+        end
+        
+        S[プッシュ通知サービス (SNS Mobile Push)] --> F
+    end
