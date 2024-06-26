@@ -1,6 +1,5 @@
 # studio_reservation_system
 
-◎タスク分割
 # フェーズ1: 基本機能の実装
 
 1. バックエンド基盤の構築
