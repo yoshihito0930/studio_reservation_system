@@ -31,7 +31,7 @@ Run `go test ./...` to run all tests.
 
 ## Authors
 
-* **Your Name** - *Initial work*
+* **Yoshihito Ishihara  ** - *Initial work*
 
 ## License
 
