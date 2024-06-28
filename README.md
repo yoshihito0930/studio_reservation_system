@@ -1,129 +1,38 @@
-# 技術スタック詳細
+# Studio Reservation System
 
-- クラウド: AWS
-- バックエンド: Golang
-- フロントエンド: React
-- データベース: MySQL
-- インフラストラクチャ: Terraform
+This project is a reservation management system for photography studios.
 
-# 予約管理システム構築タスクリスト
+## Getting Started
 
-## フェーズ1: 基本的なバックエンド構築 (推定時間: 3-4週間)
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-1. プロジェクトセットアップ
-   - GitHub リポジトリの作成
-   - AWS アカウントのセットアップ
-   - Terraform プロジェクトの初期化
-   技術: GitHub, AWS, Terraform
+### Prerequisites
 
-2. データベース設計と実装
-   - テーブル設計 (予約、カレンダー)
-   - RDS (MySQL) インスタンスの作成
-   - マイグレーションスクリプトの作成
-   技術: MySQL, Terraform, AWS RDS
+- Go 1.16 or later
+- PostgreSQL
+- Docker (optional)
 
-3. 基本的な API サーバーの実装
-   - Golang での API サーバーのセットアップ
-   - 基本的な CRUD 操作の実装
-   - テストの作成
-   技術: Golang, AWS EC2/ECS
+### Installing
 
-4. 認証・認可システムの実装
-   - JWT を使用した認証システムの実装
-   - 基本的な役割管理の実装（管理者、一般ユーザー）
-   技術: Golang, JWT
+1. Clone the repository
+2. Run `go mod tidy` to install dependencies
+3. Set up your PostgreSQL database
+4. Copy `config.example.yaml` to `config.yaml` and fill in your configuration
+5. Run `go run cmd/api/main.go` to start the server
 
-## フェーズ2: フロントエンド基礎開発とフォーム生成サービス (推定時間: 4-5週間)
+## Running the tests
 
-5. フォーム生成サービスの基本実装
-   - フォームスキーマの設計
-   - 動的フォーム生成ロジックの実装
-   - フォームデータの保存と取得機能の実装
-   技術: Golang, JSON Schema
+Run `go test ./...` to run all tests.
 
-6. クライアント閲覧用 UI の基本実装
-   - React プロジェクトのセットアップ
-   - カレンダービューの実装
-   - 動的フォームレンダリングコンポーネントの実装
-   - API との連携
-   技術: React, TypeScript
+## Built With
 
-7. 管理者用 Web アプリの基本実装
-   - 予約管理画面の実装
-   - カレンダー編集機能の実装
-   - フォーム編集インターフェースの実装
-   技術: React, TypeScript
+* [Go](https://golang.org/) - The programming language used
+* [PostgreSQL](https://www.postgresql.org/) - Database
 
-8. フロントエンドのデプロイ設定
-   - S3 + CloudFront を使用した静的ウェブホスティングの設定
-   技術: AWS S3, CloudFront, Terraform
+## Authors
 
-## フェーズ3: 機能拡張とバックエンド最適化 (推定時間: 3-4週間)
+* **Your Name** - *Initial work*
 
-9. 非同期処理システムの実装
-   - AWS SQS を使用したメッセージキューの設定
-   - バックグラウンドワーカーの実装
-   技術: Golang, AWS SQS, Terraform
+## License
 
-10. 通知システムの実装
-    - メール通知システムの実装 (AWS SES の使用)
-    - プッシュ通知の基本設定
-    技術: Golang, AWS SES, AWS SNS
-
-11. パフォーマンス最適化
-    - API レスポンスの最適化
-    - データベースインデックスの最適化
-    技術: Golang, MySQL
-
-12. キャッシュ層の実装
-    - Redis の導入
-    - 頻繁にアクセスされるデータのキャッシュ
-    技術: Redis, AWS ElastiCache, Golang
-
-## フェーズ4: モバイルアプリ開発 (推定時間: 4-5週間)
-
-13. React Native プロジェクトのセットアップ
-    技術: React Native, TypeScript
-
-14. 管理者用モバイルアプリの基本機能実装
-    - 認証画面の実装
-    - 予約リスト・カレンダービューの実装
-    - 基本的な予約管理機能の実装
-    技術: React Native, TypeScript
-
-15. オフライン対応とデータ同期の実装
-    技術: React Native, Redux/MobX
-
-16. プッシュ通知の実装
-    技術: React Native, AWS SNS
-
-## フェーズ5: セキュリティ強化と運用準備 (推定時間: 2-3週間)
-
-17. セキュリティ監査と強化
-    - SSL/TLS の設定
-    - WAF の設定
-    - セキュリティグループの最適化
-    技術: AWS WAF, ACM, Security Groups
-
-18. 監視とロギングの設定
-    - CloudWatch の設定
-    - ログ分析システムの導入
-    技術: AWS CloudWatch, ELK Stack (オプション)
-
-19. バックアップと災害復旧計画の実装
-    技術: AWS Backup, Terraform
-
-20. ドキュメンテーションとマニュアルの作成
-
-21. 最終テストとバグ修正
-
-注意: 各フェーズの推定時間は、あくまで目安です。実際の開発速度や予期せぬ問題により、調整が必要になる可能性があります。
-
-## 将来的な拡張（優先度低）
-
-22. テナント管理システムの実装
-    - テナントの CRUD 操作の実装
-    - テナントごとの設定管理機能の追加
-    - テナントごとのフォーム設定の管理機能の追加
-    技術: Golang, MySQL
-
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
