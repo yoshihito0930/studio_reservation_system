@@ -6,6 +6,7 @@ erDiagram
     CLIENT ||--o{ CALENDAR_DISPLAY_SETTINGS : configures
     CLIENT ||--o{ HOLIDAY_SETTINGS : configures
     CLIENT ||--o{ SPECIAL_BUSINESS_DAY : defines
+    CLIENT ||--o{ RESERVATION_POLICY : defines
     CLIENT {
         int id PK
         string name
@@ -71,11 +72,22 @@ erDiagram
     FORM_SETTINGS {
         int id PK
         int client_id FK
-        json settings
+        json form_structure
+        json validation_rules
+        datetime created_at
+        datetime updated_at
+    }
+    RESERVATION_POLICY {
+        int id PK
+        int client_id FK
+        boolean use_provisional
+        int days_before_auto_confirm
+        json cancellation_policy
         datetime created_at
         datetime updated_at
     }
     RESERVATION ||--|| USER : makes
+    RESERVATION ||--o{ RESERVATION_DATA : has
     RESERVATION {
         int id PK
         int studio_id FK
@@ -83,8 +95,19 @@ erDiagram
         int admin_id FK
         datetime start_time
         datetime end_time
-        string status
+        enum status
+        enum reservation_type
+        datetime confirmed_at
+        datetime cancelled_at
         text notes
+        datetime created_at
+        datetime updated_at
+    }
+    RESERVATION_DATA {
+        int id PK
+        int reservation_id FK
+        string field_name
+        string field_value
         datetime created_at
         datetime updated_at
     }
