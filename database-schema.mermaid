@@ -1,0 +1,155 @@
+erDiagram
+    CLIENT ||--o{ STUDIO : owns
+    CLIENT ||--o{ CALENDAR_SETTINGS : has
+    CLIENT ||--o{ FORM_SETTINGS : has
+    CLIENT ||--o{ ADMIN : employs
+    CLIENT ||--o{ CALENDAR_DISPLAY_SETTINGS : configures
+    CLIENT ||--o{ HOLIDAY_SETTINGS : configures
+    CLIENT ||--o{ SPECIAL_BUSINESS_DAY : defines
+    CLIENT {
+        int id PK
+        string name
+        string contact_email
+        string contact_phone
+        datetime created_at
+        datetime updated_at
+    }
+    STUDIO ||--o{ RESERVATION : has
+    STUDIO {
+        int id PK
+        int client_id FK
+        string name
+        string location
+        int capacity
+        decimal hourly_rate
+        datetime created_at
+        datetime updated_at
+    }
+    CALENDAR_SETTINGS {
+        int id PK
+        int client_id FK
+        json settings
+        datetime created_at
+        datetime updated_at
+    }
+    CALENDAR_DISPLAY_SETTINGS {
+        int id PK
+        int client_id FK
+        time display_start_time
+        time display_end_time
+        enum default_view
+        json custom_views
+        boolean show_weekends
+        json time_slot_intervals
+        datetime created_at
+        datetime updated_at
+    }
+    HOLIDAY_SETTINGS {
+        int id PK
+        int client_id FK
+        string holiday_name
+        date holiday_date
+        boolean is_business_day
+        time custom_start_time
+        time custom_end_time
+        boolean repeats_yearly
+        datetime created_at
+        datetime updated_at
+    }
+    SPECIAL_BUSINESS_DAY {
+        int id PK
+        int client_id FK
+        int admin_id FK
+        string day_name
+        date day_date
+        time custom_start_time
+        time custom_end_time
+        text notes
+        datetime created_at
+        datetime updated_at
+    }
+    FORM_SETTINGS {
+        int id PK
+        int client_id FK
+        json settings
+        datetime created_at
+        datetime updated_at
+    }
+    RESERVATION ||--|| USER : makes
+    RESERVATION {
+        int id PK
+        int studio_id FK
+        int user_id FK
+        int admin_id FK
+        datetime start_time
+        datetime end_time
+        string status
+        text notes
+        datetime created_at
+        datetime updated_at
+    }
+    USER {
+        int id PK
+        string name
+        string email
+        string phone
+        datetime created_at
+        datetime updated_at
+    }
+    ADMIN {
+        int id PK
+        int client_id FK
+        string name
+        string email
+        string password_hash
+        enum role
+        datetime created_at
+        datetime updated_at
+    }
+    ADMIN ||--o{ RESERVATION : manages
+    ADMIN ||--o{ ADMIN_SESSION : has
+    ADMIN ||--o{ ADMIN_SETTINGS : configures
+    ADMIN ||--o{ SPECIAL_BUSINESS_DAY : sets
+    ADMIN_SESSION {
+        int id PK
+        int admin_id FK
+        string token
+        datetime expires_at
+        datetime created_at
+    }
+    ADMIN_ACTION_LOG {
+        int id PK
+        int admin_id FK
+        int reservation_id FK
+        string action_type
+        json action_details
+        datetime created_at
+    }
+    ADMIN ||--o{ ADMIN_ACTION_LOG : performs
+    ADMIN ||--o{ ADMIN_NOTIFICATION : receives
+    ADMIN_NOTIFICATION {
+        int id PK
+        int admin_id FK
+        string type
+        string message
+        boolean is_read
+        datetime created_at
+    }
+    ADMIN ||--o{ ADMIN_DEVICE : uses
+    ADMIN_DEVICE {
+        int id PK
+        int admin_id FK
+        string device_token
+        string device_type
+        datetime last_active
+        datetime created_at
+        datetime updated_at
+    }
+    ADMIN_SETTINGS {
+        int id PK
+        int admin_id FK
+        json app_settings
+        json notification_preferences
+        datetime created_at
+        datetime updated_at
+    }
